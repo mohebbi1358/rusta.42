@@ -1,0 +1,38 @@
+name: hamyar
+description: "A new Flutter project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  shared_preferences: ^2.2.2
+  provider: ^6.1.0
+  font_awesome_flutter: ^10.7.0
+  package_info_plus: ^5.0.0
+  http: ^1.2.0
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  assets:
+    - assets/fonts/
+
+  fonts:
+    - family: Vazir
+      fonts:
+        - asset: assets/fonts/Vazirmatn-Regular.ttf
+
+  uses-material-design: true
