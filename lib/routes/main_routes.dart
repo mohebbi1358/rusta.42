@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:hamyar/routes/account_routes.dart';
-import 'package:hamyar/screens/home_page.dart';
+import 'package:hamyar/routes/news_routes.dart';
+import '../screens/main/app_shell.dart';
 
 class MainRoutes {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
-    // اول بررسی مسیرهای Account
+    // بررسی مسیرهای Account
     final accountRoute = AccountRoutes.generateRoute(settings);
     if (accountRoute != null) return accountRoute;
 
-    // مسیرهای دیگر
-    switch (settings.name) {
-      case '/home':
-        return MaterialPageRoute(builder: (_) => const HomePage());
+    // بررسی مسیرهای News
+    final newsRoute = NewsRoutes.generateRoute(settings);
+    if (newsRoute != null) return newsRoute;
 
-      // دیگر مسیرها اینجا اضافه می‌شن
+    // مسیرهای عمومی
+    switch (settings.name) {
+      case '/':
+      case '/home':
+        final args = settings.arguments as Map<String, dynamic>? ?? {};
+        final initialIndex = args['initialIndex'] as int? ?? 0;
+        return MaterialPageRoute(
+          builder: (_) => AppShell(initialIndex: initialIndex),
+        );
 
       default:
         return MaterialPageRoute(
@@ -22,7 +30,6 @@ class MainRoutes {
             body: const Center(child: Text('مسیر مورد نظر یافت نشد')),
           ),
         );
-
     }
   }
 }

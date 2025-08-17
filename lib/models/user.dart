@@ -2,11 +2,15 @@ class User {
   final String phone;
   final String firstName;
   final String lastName;
+  final String? gender;
+  final List<String> categories; // اضافه شده
 
   User({
     required this.phone,
     required this.firstName,
     required this.lastName,
+    this.gender,
+    required this.categories, // اضافه شده
   });
 
   String get fullName {
@@ -21,6 +25,27 @@ class User {
       phone: json['phone'] ?? '',
       firstName: json['first_name'] ?? '',
       lastName: json['last_name'] ?? '',
+      gender: json['gender'],
+      categories: (json['allowed_categories'] as List<dynamic>?)
+              ?.map((cat) => cat['name'] as String)
+              .toList() ??
+          [],
+    );
+  }
+
+  User copyWith({
+    String? phone,
+    String? firstName,
+    String? lastName,
+    String? gender,
+    List<String>? categories,
+  }) {
+    return User(
+      phone: phone ?? this.phone,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      gender: gender ?? this.gender,
+      categories: categories ?? this.categories,
     );
   }
 }

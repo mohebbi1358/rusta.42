@@ -5,7 +5,7 @@ import 'package:hamyar/models/user.dart';
 import 'package:hamyar/providers/user_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hamyar/services/number_converter.dart';
-import 'package:hamyar/widgets/app_version_info.dart';
+import 'package:hamyar/screens/main/widgets/app_version_info.dart';
 
 
 class LoginPage extends StatefulWidget {

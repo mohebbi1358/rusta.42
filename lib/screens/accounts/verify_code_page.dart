@@ -46,16 +46,22 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
       final accessToken = result['access'];
       final refreshToken = result['refresh'];
 
-      // ذخیره در SharedPreferences
+      // ذخیره توکن‌ها در SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('access_token', accessToken);
       await prefs.setString('refresh_token', refreshToken);
 
-      // ذخیره در Provider
+      // ذخیره کاربر در Provider
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       userProvider.setUser(User.fromJson(user), token: accessToken);
 
-      Navigator.pushReplacementNamed(context, '/complete-profile');
+      Navigator.pushReplacementNamed(
+        context,
+        '/complete-profile',
+        arguments: {
+          'phone': widget.phone,
+        },
+      );
     } catch (e) {
       setState(() {
         errorMessage = _parseError(e);
@@ -70,6 +76,12 @@ class _VerifyCodePageState extends State<VerifyCodePage> {
       return e.toString().replaceFirst('Exception: ', '');
     }
     return 'خطای ناشناخته';
+  }
+
+  @override
+  void dispose() {
+    codeController.dispose();
+    super.dispose();
   }
 
   @override

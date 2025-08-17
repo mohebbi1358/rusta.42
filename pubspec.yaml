@@ -3,23 +3,39 @@ description: "A new Flutter project."
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.8.1
-
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  cached_network_image: ^3.2.3
+  url_launcher: ^6.1.10
+  shamsi_date: ^1.0.1
 
-  shared_preferences: ^2.2.2
-  provider: ^6.1.0
-  font_awesome_flutter: ^10.7.0
-  package_info_plus: ^5.0.0
+  # HTTP & API
+  dio: ^5.1.2
   http: ^1.2.0
+
+  # Image & Media (برای موبایل فعال است)
+  image_picker: ^0.8.7+5
+  #image_cropper: ^5.0.1
+
+  # State Management & Storage
+  provider: ^6.1.0
+  shared_preferences: ^2.2.2
+
+  # UI & Localization
+  flutter_localizations:
+    sdk: flutter
+  #url_launcher: ^6.1.10
+  font_awesome_flutter: ^10.7.0
   cupertino_icons: ^1.0.8
+
+  # Device Info
+  package_info_plus: ^8.3.1
 
 dev_dependencies:
   flutter_test:

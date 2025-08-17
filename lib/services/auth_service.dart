@@ -14,12 +14,13 @@ class AuthService {
       'phone': convertPersianDigitsToEnglish(phone.trim()),
       'password': convertPersianDigitsToEnglish(password.trim()),
       'action': 'login_password',
-    });
+    }, withAuth: false);  // بدون هدر Authorization
 
     final data = _processResponse(response);
     await _storeTokensIfExists(data);
     return data;
   }
+
 
   // -------------------------------
   // ارسال کد پیامکی
@@ -55,19 +56,23 @@ class AuthService {
   // -------------------------------
   // تکمیل پروفایل
   static Future<void> completeProfile({
+    required String phone,
     required String firstName,
     required String lastName,
     required String password,
+    String? gender,
   }) async {
     final response = await ApiClient.post('/api/complete-profile/', {
+      'phone': phone,
       'first_name': firstName,
       'last_name': lastName,
       'password': password,
+      'gender': gender ?? 'male',  // مقدار پیش‌فرض یا از فرم بگیر
     });
 
     _processResponse(response);
-    // می‌تونی اینجا هم توکن جدید ذخیره کنی، اگر سرور بفرسته
   }
+
 
   // -------------------------------
   // تمدید توکن
