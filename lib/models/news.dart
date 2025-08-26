@@ -34,26 +34,39 @@ class News {
       mainImage: json['main_image'] ?? '',
       extraImages: (json['images'] as List<dynamic>?)
               ?.map((img) => img['image'] as String)
-              .toList() ??
-          [],
+              .toList() ?? [],
       links: (json['links'] as List<dynamic>?)
-        ?.map((link) => {
-              'title': (link['title'] ?? '').toString(),
-              'url': (link['url'] ?? '').toString(),
-            })
-        .toList()
-      ?? [],
+              ?.map((link) => {
+                    'title': (link['title'] ?? '').toString(),
+                    'url': (link['url'] ?? '').toString(),
+                  })
+              .toList() ?? [],
       createdAt: DateTime.parse(json['created_at']),
     );
   }
+
+  /// متد برای ایجاد یک نسخه‌ی جدید با تغییرات دلخواه
+  News copyWith({
+    String? summary,
+    String? body,
+    String? mainImage,
+    List<String>? extraImages,
+    List<Map<String, String>>? links,
+  }) {
+    return News(
+      id: id,
+      title: title,
+      categoryId: categoryId,
+      categoryName: categoryName,
+      summary: summary ?? this.summary,
+      body: body ?? this.body,
+      mainImage: mainImage ?? this.mainImage,
+      extraImages: extraImages ?? this.extraImages,
+      links: links ?? this.links,
+      createdAt: createdAt,
+    );
+  }
 }
-
-
-
-
-
-
-
 
 class Category {
   final int id;

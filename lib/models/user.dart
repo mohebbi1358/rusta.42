@@ -1,16 +1,18 @@
+import 'news.dart'; // Category اینجا هست
+
 class User {
   final String phone;
   final String firstName;
   final String lastName;
   final String? gender;
-  final List<String> categories; // اضافه شده
+  final List<Category> categories; // حالا لیست Category است
 
   User({
     required this.phone,
     required this.firstName,
     required this.lastName,
     this.gender,
-    required this.categories, // اضافه شده
+    required this.categories,
   });
 
   String get fullName {
@@ -27,7 +29,7 @@ class User {
       lastName: json['last_name'] ?? '',
       gender: json['gender'],
       categories: (json['allowed_categories'] as List<dynamic>?)
-              ?.map((cat) => cat['name'] as String)
+              ?.map((cat) => Category.fromJson(cat))
               .toList() ??
           [],
     );
@@ -38,7 +40,7 @@ class User {
     String? firstName,
     String? lastName,
     String? gender,
-    List<String>? categories,
+    List<Category>? categories,
   }) {
     return User(
       phone: phone ?? this.phone,

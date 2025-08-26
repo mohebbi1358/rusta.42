@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 import '../services/user_service.dart';
+import '../models/news.dart'; // اضافه کردن برای Category
 
 class UserProvider with ChangeNotifier {
   User? _user;
@@ -81,10 +82,12 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      List<String> fetchedCategories = await UserService.getUserCategories(_user!.phone);
-      print("Fetched categories: $fetchedCategories");
+      // دریافت لیست Category از سرویس
+      List<Category> fetchedCategories = await UserService.getUserCategories();
 
       _user = _user!.copyWith(categories: fetchedCategories);
+
+      print("Fetched categories: ${_user!.categories.map((c) => c.name).toList()}");
     } catch (e) {
       debugPrint("Error fetching categories: $e");
       _user = _user!.copyWith(categories: []);
@@ -93,4 +96,6 @@ class UserProvider with ChangeNotifier {
       notifyListeners();
     }
   }
+
+
 }
