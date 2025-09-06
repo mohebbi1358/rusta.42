@@ -59,19 +59,38 @@ class AuthService {
     required String phone,
     required String firstName,
     required String lastName,
+    required String fatherName,
     required String password,
     String? gender,
+    String? imageBase64,
   }) async {
-    final response = await ApiClient.post('/api/complete-profile/', {
+    final Map<String, dynamic> body = {
       'phone': phone,
       'first_name': firstName,
       'last_name': lastName,
+      'father_name': fatherName,
       'password': password,
-      'gender': gender ?? 'male',  // مقدار پیش‌فرض یا از فرم بگیر
-    });
+      'gender': gender ?? 'M',
+    };
+
+    if (imageBase64 != null) {
+      body['image'] = imageBase64;
+    }
+
+    // لاگ قبل از ارسال
+    print("POST /api/complete-profile/ body:");
+    print("Keys: ${body.keys}");
+    print("ImageBase64 length: ${imageBase64?.length ?? 0}");
+
+    final response = await ApiClient.post('/api/complete-profile/', body);
+
+    print("Response status: ${response.statusCode}");
+    print("Response body: ${response.body}");
 
     _processResponse(response);
   }
+
+
 
 
   // -------------------------------

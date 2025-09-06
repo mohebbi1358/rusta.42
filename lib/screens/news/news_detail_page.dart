@@ -28,22 +28,60 @@ class NewsDetailPage extends StatefulWidget {
 class _NewsDetailPageState extends State<NewsDetailPage> {
   late News _news;
 
+  // 🔹 وضعیت ادمین از SharedPreferences
+  bool _is_admin = false;
+
   @override
   void initState() {
     super.initState();
     _news = widget.news;
+    _loadAdminStatus();
+  }
+
+  Future<void> _loadAdminStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _is_admin = prefs.getBool('is_admin') ?? false;
+    });
+    print("🔹 Loaded admin status: $_is_admin");
   }
 
   bool get canEdit {
     final now = DateTime.now();
     final editLimit = _news.createdAt.add(const Duration(hours: 2));
-    return now.isBefore(editLimit);
+
+    if (_is_admin) {
+      print("🟢 Admin can edit news ${_news.id} without restriction");
+      return true;
+    }
+
+    if (!_news.isOwner) {
+      print("🔴 User cannot edit news ${_news.id}: not the owner");
+      return false;
+    }
+
+    final canEdit = now.isBefore(editLimit);
+    print("📝 Edit check for news ${_news.id}: createdAt=${_news.createdAt}, editLimit=$editLimit, now=$now, canEdit=$canEdit");
+    return canEdit;
   }
 
   bool get canDelete {
     final now = DateTime.now();
     final deleteLimit = _news.createdAt.add(const Duration(minutes: 2));
-    return now.isBefore(deleteLimit);
+
+    if (_is_admin) {
+      print("🟢 Admin can delete news ${_news.id} without restriction");
+      return true;
+    }
+
+    if (!_news.isOwner) {
+      print("🔴 User cannot delete news ${_news.id}: not the owner");
+      return false;
+    }
+
+    final canDelete = now.isBefore(deleteLimit);
+    print("📝 Delete check for news ${_news.id}: createdAt=${_news.createdAt}, deleteLimit=$deleteLimit, now=$now, canDelete=$canDelete");
+    return canDelete;
   }
 
   void _updateNews(News updated) {

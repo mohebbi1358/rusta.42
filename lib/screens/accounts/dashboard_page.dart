@@ -64,6 +64,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   userProvider.updateUser(
                     firstName: result['firstName'] ?? user.firstName,
                     lastName: result['lastName'] ?? user.lastName,
+                    fatherName: result['fatherName'] ?? user.fatherName ?? '',
                     gender: result['gender'] ?? user.gender,
                   );
                 }

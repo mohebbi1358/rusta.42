@@ -25,7 +25,9 @@ class UserProvider with ChangeNotifier {
     await prefs.setString('phone', user.phone);
     await prefs.setString('firstName', user.firstName);
     await prefs.setString('lastName', user.lastName);
-
+    await prefs.setString('fatherName', user.fatherName ?? '');
+    await prefs.setString('imageUrl', user.imageUrl ?? '');
+    await prefs.setBool('is_admin', user.is_admin); // ✅ ذخیره مقدار ادمین
     await fetchAllowedCategories();
   }
 
@@ -36,14 +38,20 @@ class UserProvider with ChangeNotifier {
     final phone = prefs.getString('phone');
     final firstName = prefs.getString('firstName') ?? '';
     final lastName = prefs.getString('lastName') ?? '';
+    final fatherName = prefs.getString('fatherName') ?? '';
+    final imageUrl = prefs.getString('imageUrl') ?? '';
+    final isAdmin = prefs.getBool('is_admin') ?? false; // ✅ لود مقدار ادمین
 
     if (token != null && phone != null) {
       _user = User(
         phone: phone,
         firstName: firstName,
         lastName: lastName,
+        fatherName: fatherName,
         gender: null,
+        imageUrl: imageUrl.isNotEmpty ? imageUrl : null,
         categories: [],
+        is_admin: isAdmin, // ✅
       );
       _token = token;
 
@@ -63,13 +71,23 @@ class UserProvider with ChangeNotifier {
   }
 
   // بروزرسانی اطلاعات کاربر
-  void updateUser({required String firstName, required String lastName, String? gender}) {
+  void updateUser({
+    required String firstName,
+    required String lastName,
+    required String fatherName,
+    String? gender,
+    String? imageUrl,
+    bool? is_admin, // ✅ اگر بخوایم آپدیت کنیم
+  }) {
     if (_user == null) return;
 
     _user = _user!.copyWith(
       firstName: firstName,
       lastName: lastName,
+      fatherName: fatherName,
       gender: gender ?? _user!.gender,
+      imageUrl: imageUrl ?? _user!.imageUrl,
+      is_admin: is_admin ?? _user!.is_admin, // ✅
     );
     notifyListeners();
   }
@@ -96,6 +114,4 @@ class UserProvider with ChangeNotifier {
       notifyListeners();
     }
   }
-
-
 }

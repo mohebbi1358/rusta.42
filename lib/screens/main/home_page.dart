@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'widgets/shahed_card.dart';
+// مسیر روت‌های شهدا
+import '../main/app_shell.dart';
 
 class HomePage extends StatelessWidget {
   final void Function(int) onNavigateTab;
@@ -10,7 +12,12 @@ class HomePage extends StatelessWidget {
     return ListView(
       children: [
         ShahedCard(
-          onTap: () => onNavigateTab(1), // بفرست به تب "جاودانه‌ها"
+          onTap: () {
+            final shell = AppShell.of(context);
+            if (shell != null) {
+              shell.setTab(1); // تب شماره ۱ مربوط به "جاودانه‌ها" یا لیست شهدا
+            }
+          }
         ),
       ],
     );

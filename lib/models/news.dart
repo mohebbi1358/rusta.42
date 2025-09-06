@@ -1,3 +1,6 @@
+
+
+
 class News {
   final int id;
   final String title;
@@ -10,6 +13,11 @@ class News {
   final List<Map<String, String>> links;
   final DateTime createdAt;
 
+  // 🔹 فیلدهای مربوط به نویسنده
+  final int authorId;
+  final String authorName;
+  final bool isOwner;
+
   News({
     required this.id,
     required this.title,
@@ -21,6 +29,9 @@ class News {
     required this.extraImages,
     required this.links,
     required this.createdAt,
+    required this.authorId,
+    required this.authorName,
+    required this.isOwner,
   });
 
   factory News.fromJson(Map<String, dynamic> json) {
@@ -34,14 +45,19 @@ class News {
       mainImage: json['main_image'] ?? '',
       extraImages: (json['images'] as List<dynamic>?)
               ?.map((img) => img['image'] as String)
-              .toList() ?? [],
+              .toList() ??
+          [],
       links: (json['links'] as List<dynamic>?)
               ?.map((link) => {
                     'title': (link['title'] ?? '').toString(),
                     'url': (link['url'] ?? '').toString(),
                   })
-              .toList() ?? [],
+              .toList() ??
+          [],
       createdAt: DateTime.parse(json['created_at']),
+      authorId: json['author_id'] ?? 0,
+      authorName: json['author_name'] ?? '',
+      isOwner: json['is_owner'] ?? false,
     );
   }
 
@@ -64,9 +80,18 @@ class News {
       extraImages: extraImages ?? this.extraImages,
       links: links ?? this.links,
       createdAt: createdAt,
+      authorId: authorId,
+      authorName: authorName,
+      isOwner: isOwner,
     );
   }
 }
+
+
+
+
+
+
 
 class Category {
   final int id;
